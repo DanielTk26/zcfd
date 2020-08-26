@@ -1,0 +1,225 @@
+<html>
+	<head>
+		<title>AB+ Donate My Blood</title>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="Post.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<meta charset="utf-8">
+
+  </head>
+  
+	
+<body>
+
+
+  <h1 style="position: absolute; left: 25px; top: 290px;">For Donors: </h1>
+
+  <h1 style="position: absolute; left: 910px; top: 290px;">For The Needy: </h1>
+
+
+
+<h2 style="position: absolute; left: 25px; top: 350px;">If you are a donor, type in your details  </h2>
+<h2 style="position: absolute; left: 25px; top: 380px;">in the given format....  </h2>
+<h2 style="position: absolute; left: 25px; top: 410px;">Location(State,distict), Name, Age, Ph.Number,</h2>
+<h2 style="position: absolute; left: 25px; top: 440px;">previous donation date. And then click  </h2>
+<h2 style="position: absolute; left: 25px; top: 470px;">on the post button and your details will  </h2>
+<h2 style="position: absolute; left: 25px; top: 500px;">be posted accordingly. If You want to see  </h2>
+<h2 style="position: absolute; left: 25px; top: 530px;">your post just click on the posting box again.  </h2>
+<h2 style="position: absolute; left: 25px; top: 560px;">Thank You !!!  </h2>
+
+
+<h2 style="position: absolute; left: 910px; top: 350px;">If you need a  blood donor in your area,</h2>
+<h2 style="position: absolute; left: 910px; top: 380px;">then just type in your location   </h2>
+<h2 style="position: absolute; left: 910px; top: 410px;">(State,District) and you will see </h2>
+<h2 style="position: absolute; left: 910px; top: 440px;">all the available donors in your area.</h2>
+<h2 style="position: absolute; left: 910px; top: 470px;">Then just click on any available donor</h2>
+<h2 style="position: absolute; left: 910px; top: 500px;">and his required details will appear on  </h2>
+<h2 style="position: absolute; left: 910px; top: 530px;">the text bar. You can then contact</h2>
+<h2 style="position: absolute; left: 910px; top: 560px;">the donor using his Ph.Number.</h2>
+
+
+<div id="post"> <p id="p">AB+ Donate My Blood</p><p id="pr"> By Daniel Thomas</p></div> 
+
+
+
+
+<br>
+<br>
+<div id="holder">
+	<form id="messageForm">
+						
+
+			<input type="text" id="messageInput" placeholder="Post Donor Details/Search in your location"/>
+      <button type="Post"  id="btn" onclick="hidel()"> Post </button>
+      
+    
+
+	</form>
+	<div class="chat" id="chat" style="overflow-y:scroll; height:450px;">
+
+	
+<div id="messageBox">
+
+</div>
+</div>
+
+
+</body>
+
+
+
+
+
+
+<script>
+$(function(){
+var socket = io.connect();  //connects to socket
+var $messageForm = $("#messageForm"); //ref to the div message form
+var $messageInput = $("#messageInput"); //ref to input box with id message
+var $chat = $("#chat"); //ref to div chat
+var test = $messageInput.val("");
+
+$messageForm.submit(function(e){
+e.preventDefault();
+socket.emit("donor details", $messageInput.val());
+$messageInput.val("");
+
+
+});
+socket.on("donor details", function(data){
+
+
+if(data.msg.length > 0){
+$chat.append('<br>'  +'<div id="circle"> ' + '<textarea id="t" readonly>' + data.msg + '</textarea>'+' </div>' + '<br>' );
+}
+});
+
+});
+
+showlog = false;
+window.setInterval(function() {
+if(showlog == false){
+  var chat = document.getElementById("chat");
+  chat.scrollTop = chat.scrollHeight;
+  }
+}, 4);
+
+function showl(){
+showlog = true;
+
+}
+function hidel(){
+var chat = document.getElementById("chat");
+  chat.scrollTop = chat.scrollHeight;
+showlog = false;
+
+}
+
+</script>
+
+
+
+
+
+
+
+
+
+<style>
+body{
+background-color:lightblue;
+
+}
+#p{
+margin-top:9px;
+}
+
+#pr{
+font-size:12px;
+margin-top:-34px;
+margin-left: 82px;
+}
+
+#post{
+background-color:#e74c3c;
+font-family: verdana;
+color:white;
+font-size: 30px;
+text-align:center;
+border: 2px solid white;
+border-radius:15px;
+width:190px;
+height:130px;
+
+}
+
+#btn{
+background-color: white;
+font-size:15px;
+font-family: Verdana;
+color:black;
+width:56px;
+height:51px;
+text-align: center;
+margin-left:0px;
+border-radius:10px;
+outline:none;
+border: 2px solid #e74c3c;
+
+}
+
+
+
+
+
+#messageInput{
+ margin-left: 462px;
+text-align:center;
+border-radius:10px;
+outline:none;
+
+font-size:15px;
+font-family: Verdana;
+color:black;
+width:370px;
+height:50px;
+}
+
+
+#t {
+text-align:left;
+font-size:15px;
+font-family: Verdana;
+color:black;
+border: 2px solid #f1c40f;
+  margin-top: -5px;
+  margin-left: 72px;
+  width:200px;
+  height:90px;
+  background-color:white;
+  border-radius:12px;
+  resize: none;
+      outline: none;
+
+}
+
+
+::-webkit-scrollbar { 
+display: none;
+}
+#circle{
+width:50px;
+height:50px;
+border-radius:100px;
+border: 5px solid white;
+margin-left:25px;
+background-color:#f1c40f;
+
+}
+
+
+</style>
+
+</html>	
